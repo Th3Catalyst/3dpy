@@ -45,19 +45,19 @@ class Cube():
                                         *math.sin(self.heading[1] + math.pi/4))))),
             tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
                                         *math.cos(self.heading[1] - math.pi/4)
-                                        *math.cos(self.heading[2] - math.pi/4),
+                                        *math.cos(math.pi + self.heading[2] + math.pi/4),
                                     (width/math.sqrt(4/3))
                                      * math.cos(self.heading[0] - math.pi / 4)
-                                     * math.sin(self.heading[2] - math.pi / 4),
+                                     * math.sin(math.pi + self.heading[2] + math.pi / 4),
                                     (width/math.sqrt(4/3))
                                         *math.sin(self.heading[0] - math.pi/4)
                                         *math.sin(self.heading[1] - math.pi/4))))),
             tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
                                         *math.cos(self.heading[1] - math.pi/4)
-                                        *math.cos(self.heading[2] + math.pi/4),
+                                        *math.cos(math.pi + self.heading[2] - math.pi/4),
                                      (width/math.sqrt(4/3))
                                         *math.cos(self.heading[0] + math.pi/4)
-                                        *math.cos(self.heading[2] + math.pi/4),
+                                        *math.cos(math.pi + self.heading[2] - math.pi/4),
                                      (width/math.sqrt(4/3))
                                         *math.sin(self.heading[0] + math.pi/4)
                                         *math.sin(self.heading[1] - math.pi/4)))))
@@ -107,6 +107,6 @@ class Cube():
             draw3DLine(screen, self.frontPoints[i], self.frontPoints[i-1], 2, self.color)
             draw3DLine(screen, self.backPoints[i], self.backPoints[i-1], 2, self.color)
         if debug:
-            draw3DLine(screen, self.pos, (self.pos[0] + 500*math.cos(self.heading[1]), self.pos[1], self.pos[2] + 500*math.sin(self.heading[1])), 2, "blue")
+            draw3DLine(screen, self.pos, (self.pos[0] + 500*math.cos(self.heading[1])*math.cos(self.heading[2]), self.pos[1] + 500*math.cos(self.heading[0])*math.sin(self.heading[2]), self.pos[2] + 500*math.sin(self.heading[1])*math.sin(self.heading[0])), 2, "blue")
 
 

@@ -29,48 +29,48 @@ class Cube():
                                         *math.cos(self.heading[1] + math.pi/4)
                                         *math.cos(self.heading[2] + math.pi/4),
                                      (width/math.sqrt(4/3))
-                                         * math.cos(self.heading[0] + math.pi / 4)
+                                         * math.cos(self.heading[0] - math.pi / 4)
                                          * math.sin(self.heading[2] + math.pi / 4),
                                      (width/math.sqrt(4/3))
-                                        *math.sin(self.heading[0] + math.pi/4)
+                                        *math.sin(self.heading[0] - math.pi/4)
                                         *math.sin(self.heading[1] + math.pi/4))))),
             tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
                                         *math.cos(self.heading[1] + math.pi/4)
                                         *math.cos(self.heading[2] - math.pi/4),
                                     (width/math.sqrt(4/3))
-                                        *math.cos(self.heading[0] - math.pi/4)
+                                        *math.cos(self.heading[0] + math.pi/4)
                                         *math.sin(self.heading[2] - math.pi/4),
                                     (width/math.sqrt(4/3))
-                                        *math.sin(self.heading[0] - math.pi/4)
+                                        *math.sin(self.heading[0] + math.pi/4)
                                         *math.sin(self.heading[1] + math.pi/4))))),
             tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
                                         *math.cos(self.heading[1] - math.pi/4)
                                         *math.cos(math.pi + self.heading[2] + math.pi/4),
                                     (width/math.sqrt(4/3))
-                                     * math.cos(self.heading[0] - math.pi / 4)
+                                     * math.cos(self.heading[0] + math.pi / 4)
                                      * math.sin(math.pi + self.heading[2] + math.pi / 4),
                                     (width/math.sqrt(4/3))
-                                        *math.sin(self.heading[0] - math.pi/4)
+                                        *math.sin(self.heading[0] + math.pi/4)
                                         *math.sin(self.heading[1] - math.pi/4))))),
             tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
                                         *math.cos(self.heading[1] - math.pi/4)
                                         *math.cos(math.pi + self.heading[2] - math.pi/4),
                                      (width/math.sqrt(4/3))
-                                        *math.cos(self.heading[0] + math.pi/4)
+                                        *math.cos(self.heading[0] - math.pi/4)
                                         *math.cos(math.pi + self.heading[2] - math.pi/4),
                                      (width/math.sqrt(4/3))
-                                        *math.sin(self.heading[0] + math.pi/4)
+                                        *math.sin(self.heading[0] - math.pi/4)
                                         *math.sin(self.heading[1] - math.pi/4)))))
         )
         self.backPoints = (
             tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
                                         * math.cos(math.pi + self.heading[1] - math.pi / 4)
-                                        * math.cos(math.pi + self.heading[2] - math.pi / 4),
+                                        * math.cos(self.heading[2] + math.pi / 4),
                                      (width/math.sqrt(4/3))
-                                        * math.cos(math.pi + self.heading[0] - math.pi / 4)
-                                        * math.sin(math.pi + self.heading[2] - math.pi / 4),
+                                        * math.cos(math.pi + self.heading[0] + math.pi / 4)
+                                        * math.sin(self.heading[2] + math.pi / 4),
                                      (width / math.sqrt(4 / 3))
-                                        * math.sin(math.pi + self.heading[0] - math.pi / 4)
+                                        * math.sin(math.pi + self.heading[0] + math.pi / 4)
                                         * math.sin(math.pi + self.heading[1] - math.pi / 4))))),
             tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
                                         * math.cos(math.pi + self.heading[1] - math.pi / 4)

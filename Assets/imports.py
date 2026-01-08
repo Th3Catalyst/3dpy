@@ -1,6 +1,26 @@
-import pygame, math
+import pygame
+
+from math import sin, cos
 
 Number = int | float
+
+def rotate3DPoint(center: tuple[Number,Number,Number], point: tuple[Number,Number,Number], rotation: tuple[Number,Number,Number]) -> tuple[Number,Number,Number]:
+    relPos = tuple(map(sum, zip(-center, point)))
+    rotMatrix = [
+        [cos(rotation[1])*cos(rotation[0]),sin(rotation[2])*sin(rotation[1])*cos(rotation[0])-sin(rotation[0])*cos(rotation[2]),sin(rotation[1])*cos(rotation[0])*cos(rotation[2]) + sin(rotation[0])*sin(rotation[2])],
+        [cos(rotation[1])*sin(rotation[0]),sin(rotation[2])*sin(rotation[1])*sin(rotation[0])+cos(rotation[2])*cos(rotation[0]),sin(rotation[1])*sin(rotation[0])*cos(rotation[2]) - cos(rotation[0])*sin(rotation[2])],
+        [-sin(rotation[1]),sin(rotation[2])*cos(rotation[1]),cos(rotation[2])*cos(rotation[1])]
+    ]
+    endPoint = []
+    for row in rotMatrix:
+        val = 0
+        for output, pos in zip(row, relPos):
+            val += output*pos
+        endPoint.append(val)
+    return endPoint
+
+
+
 
 def draw3DLine(screen, start: tuple[Number, Number, Number], end: tuple[Number, Number, Number], width: int, color) -> None:
     fov = 0.002

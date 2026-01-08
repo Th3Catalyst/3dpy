@@ -1,4 +1,4 @@
-from Assets import pygame, Number, Cube, draw3DLine, math
+from Assets import pygame, Number, Cube, draw3DLine, math, rotate3DPoint
 
 
 
@@ -9,7 +9,8 @@ def main() -> None:
     clock = pygame.time.Clock()
 
     testCube = Cube((500,400,154),300)
-
+    
+    
     running = True
     while running:
         for event in pygame.event.get():

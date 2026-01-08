@@ -3,7 +3,7 @@ from .imports import Number, draw3DLine, math
 
 # noinspection PyTypeChecker
 class Cube():
-    def __init__(self,pos: tuple[Number, Number, Number], width: Number, color = "red", heading=(0, -math.pi/2, 0)):
+    def __init__(self,pos: tuple[Number, Number, Number], width: Number, color = "red", heading=(math.pi/2, -math.pi/2, 0)):
         self.pos = pos
         self.width = width
         self.heading = heading
@@ -74,30 +74,30 @@ class Cube():
                                         * math.sin(math.pi + self.heading[1] - math.pi / 4))))),
             tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
                                         * math.cos(math.pi + self.heading[1] - math.pi / 4)
-                                        * math.cos(math.pi + self.heading[2] + math.pi / 4),
+                                        * math.cos(self.heading[2] - math.pi / 4),
                                      (width/math.sqrt(4/3))
-                                        * math.cos(math.pi + self.heading[0] + math.pi / 4)
-                                        * math.sin(math.pi + self.heading[2] + math.pi / 4),
+                                        * math.cos(math.pi + self.heading[0] - math.pi / 4)
+                                        * math.sin(self.heading[2] - math.pi / 4),
                                      (width / math.sqrt(4 / 3))
-                                        * math.sin(math.pi + self.heading[0] + math.pi / 4)
+                                        * math.sin(math.pi + self.heading[0] - math.pi / 4)
                                         * math.sin(math.pi + self.heading[1] - math.pi / 4))))),
             tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
                                         * math.cos(math.pi + self.heading[1] + math.pi / 4)
                                         * math.cos(math.pi + self.heading[2] + math.pi / 4),
                                      (width/math.sqrt(4/3))
-                                        * math.cos(math.pi + self.heading[0] + math.pi / 4)
+                                        * math.cos(math.pi + self.heading[0] - math.pi / 4)
                                         * math.sin(math.pi + self.heading[2] + math.pi / 4),
                                      (width / math.sqrt(4 / 3))
-                                        * math.sin(math.pi + self.heading[0] + math.pi / 4)
+                                        * math.sin(math.pi + self.heading[0] - math.pi / 4)
                                         * math.sin(math.pi + self.heading[1] + math.pi / 4))))),
             tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
                                         * math.cos(math.pi + self.heading[1] + math.pi / 4)
                                         * math.cos(math.pi + self.heading[2] - math.pi / 4),
                                      (width/math.sqrt(4/3))
-                                        * math.cos(math.pi + self.heading[0] - math.pi / 4)
+                                        * math.cos(math.pi + self.heading[0] + math.pi / 4)
                                         * math.sin(math.pi + self.heading[2] - math.pi / 4),
                                      (width / math.sqrt(4 / 3))
-                                        * math.sin(math.pi + self.heading[0] - math.pi / 4)
+                                        * math.sin(math.pi + self.heading[0] + math.pi / 4)
                                         * math.sin(math.pi + self.heading[1] + math.pi / 4)))))
         )
 

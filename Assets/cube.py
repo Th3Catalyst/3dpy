@@ -60,10 +60,10 @@ class Cube():
         self.update()
         pointsBackup = (self.frontPoints, self.backPoints)
         if len(playerPos) == 3:
+            self.frontPoints = tuple(map(lambda i: rotate3DPoint(playerPos, i, angle), self.frontPoints))
+            self.backPoints = tuple(map(lambda i: rotate3DPoint(playerPos, i, angle), self.backPoints))
             self.frontPoints = tuple(map(lambda i: combineTuple(i, playerPos, mode="subtract"), self.frontPoints))
             self.backPoints = tuple(map(lambda i: combineTuple(i, playerPos, mode="subtract"), self.backPoints))
-            self.frontPoints = tuple(map(lambda i: rotate3DPoint(origin + (0,), i, angle), self.frontPoints))
-            self.backPoints = tuple(map(lambda i: rotate3DPoint(origin + (0,), i, angle), self.backPoints))
         topPoints = (self.frontPoints[0], self.frontPoints[-1], self.backPoints[-1], self.backPoints[0])
         bottomPoints = self.frontPoints[1:3] + self.backPoints[1:3][::-1]
         leftPoints = self.frontPoints[:2] + self.backPoints[:2][::-1]

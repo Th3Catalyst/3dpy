@@ -1,112 +1,114 @@
-from .imports import Number, draw3DLine, math
+import pygame
+
+from .imports import Number, draw3DLine, rotate3DPoint, combineTuple, project3DPoint, Point3D, Point2D, pointBehindRect
 
 
 # noinspection PyTypeChecker
 class Cube():
-    def __init__(self,pos: tuple[Number, Number, Number], width: Number, color = "red", heading=(math.pi/2, -math.pi/2, 0)):
+    def __init__(self,pos: Point3D, dims: Point3D, color = "red", rotation=(0, 0, 0), fillColor = None):
         self.pos = pos
-        self.width = width
-        self.heading = heading
+        self.rotation = rotation
+        self.dims = dims
+        self.width = dims[0]
+        self.height = dims[1]
+        self.depth = dims[2]
         self.color = color
+        self.fillColor = fillColor
         self.frontPoints = (
-            tuple(map(sum, zip(pos, (- width / 2, - width / 2, - width / 2)))),
-            tuple(map(sum, zip(pos, (- width / 2, width / 2, - width / 2)))),
-            tuple(map(sum, zip(pos, (width / 2, width / 2, - width / 2)))),
-            tuple(map(sum, zip(pos, (width / 2, - width / 2, - width / 2))))
+            combineTuple(pos, (- self.width / 2, - self.height / 2, - self.depth / 2), mode="sum"),
+            combineTuple(pos, (- self.width / 2, self.height / 2, - self.depth / 2), mode="sum"),
+            combineTuple(pos, (self.width / 2, self.height / 2, - self.depth / 2), mode="sum"),
+            combineTuple(pos, (self.width / 2, - self.height / 2, - self.depth / 2), mode="sum")
         )
         self.backPoints = (
-            tuple(map(sum, zip(pos, (- width / 2, - width / 2, width / 2)))),
-            tuple(map(sum, zip(pos, (- width / 2, width / 2, width / 2)))),
-            tuple(map(sum, zip(pos, (width / 2, width / 2, width / 2)))),
-            tuple(map(sum, zip(pos, (width / 2, - width / 2, width / 2)))),
+            combineTuple(pos, (- self.width / 2, - self.height / 2, self.depth / 2), mode="sum"),
+            combineTuple(pos, (- self.width / 2, self.height / 2, self.depth / 2), mode="sum"),
+            combineTuple(pos, (self.width / 2, self.height / 2, self.depth / 2), mode="sum"),
+            combineTuple(pos, (self.width / 2, - self.height / 2, self.depth / 2), mode="sum"),
         )
 
     def update(self):
         pos = self.pos
-        width = self.width
         self.frontPoints = (
-            tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
-                                        *math.cos(self.heading[1] + math.pi/4)
-                                        *math.cos(self.heading[2] + math.pi/4),
-                                     (width/math.sqrt(4/3))
-                                         * math.cos(self.heading[0] - math.pi / 4)
-                                         * math.sin(self.heading[2] + math.pi / 4),
-                                     (width/math.sqrt(4/3))
-                                        *math.sin(self.heading[0] - math.pi/4)
-                                        *math.sin(self.heading[1] + math.pi/4))))),
-            tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
-                                        *math.cos(self.heading[1] + math.pi/4)
-                                        *math.cos(self.heading[2] - math.pi/4),
-                                    (width/math.sqrt(4/3))
-                                        *math.cos(self.heading[0] + math.pi/4)
-                                        *math.sin(self.heading[2] - math.pi/4),
-                                    (width/math.sqrt(4/3))
-                                        *math.sin(self.heading[0] + math.pi/4)
-                                        *math.sin(self.heading[1] + math.pi/4))))),
-            tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
-                                        *math.cos(self.heading[1] - math.pi/4)
-                                        *math.cos(math.pi + self.heading[2] + math.pi/4),
-                                    (width/math.sqrt(4/3))
-                                     * math.cos(self.heading[0] + math.pi / 4)
-                                     * math.sin(math.pi + self.heading[2] + math.pi / 4),
-                                    (width/math.sqrt(4/3))
-                                        *math.sin(self.heading[0] + math.pi/4)
-                                        *math.sin(self.heading[1] - math.pi/4))))),
-            tuple(map(sum, zip(pos, ((width/math.sqrt(4/3))
-                                        *math.cos(self.heading[1] - math.pi/4)
-                                        *math.cos(math.pi + self.heading[2] - math.pi/4),
-                                     (width/math.sqrt(4/3))
-                                        *math.cos(self.heading[0] - math.pi/4)
-                                        *math.cos(math.pi + self.heading[2] - math.pi/4),
-                                     (width/math.sqrt(4/3))
-                                        *math.sin(self.heading[0] - math.pi/4)
-                                        *math.sin(self.heading[1] - math.pi/4)))))
+            combineTuple(pos, (- self.width / 2, - self.height / 2, - self.depth / 2), mode="sum"),
+            combineTuple(pos, (- self.width / 2, self.height / 2, - self.depth / 2), mode="sum"),
+            combineTuple(pos, (self.width / 2, self.height / 2, - self.depth / 2), mode="sum"),
+            combineTuple(pos, (self.width / 2, - self.height / 2, - self.depth / 2), mode="sum")
         )
         self.backPoints = (
-            tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
-                                        * math.cos(math.pi + self.heading[1] - math.pi / 4)
-                                        * math.cos(self.heading[2] + math.pi / 4),
-                                     (width/math.sqrt(4/3))
-                                        * math.cos(math.pi + self.heading[0] + math.pi / 4)
-                                        * math.sin(self.heading[2] + math.pi / 4),
-                                     (width / math.sqrt(4 / 3))
-                                        * math.sin(math.pi + self.heading[0] + math.pi / 4)
-                                        * math.sin(math.pi + self.heading[1] - math.pi / 4))))),
-            tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
-                                        * math.cos(math.pi + self.heading[1] - math.pi / 4)
-                                        * math.cos(self.heading[2] - math.pi / 4),
-                                     (width/math.sqrt(4/3))
-                                        * math.cos(math.pi + self.heading[0] - math.pi / 4)
-                                        * math.sin(self.heading[2] - math.pi / 4),
-                                     (width / math.sqrt(4 / 3))
-                                        * math.sin(math.pi + self.heading[0] - math.pi / 4)
-                                        * math.sin(math.pi + self.heading[1] - math.pi / 4))))),
-            tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
-                                        * math.cos(math.pi + self.heading[1] + math.pi / 4)
-                                        * math.cos(math.pi + self.heading[2] + math.pi / 4),
-                                     (width/math.sqrt(4/3))
-                                        * math.cos(math.pi + self.heading[0] - math.pi / 4)
-                                        * math.sin(math.pi + self.heading[2] + math.pi / 4),
-                                     (width / math.sqrt(4 / 3))
-                                        * math.sin(math.pi + self.heading[0] - math.pi / 4)
-                                        * math.sin(math.pi + self.heading[1] + math.pi / 4))))),
-            tuple(map(sum, zip(pos, ((width / math.sqrt(4 / 3))
-                                        * math.cos(math.pi + self.heading[1] + math.pi / 4)
-                                        * math.cos(math.pi + self.heading[2] - math.pi / 4),
-                                     (width/math.sqrt(4/3))
-                                        * math.cos(math.pi + self.heading[0] + math.pi / 4)
-                                        * math.sin(math.pi + self.heading[2] - math.pi / 4),
-                                     (width / math.sqrt(4 / 3))
-                                        * math.sin(math.pi + self.heading[0] + math.pi / 4)
-                                        * math.sin(math.pi + self.heading[1] + math.pi / 4)))))
+            combineTuple(pos, (- self.width / 2, - self.height / 2, self.depth / 2), mode="sum"),
+            combineTuple(pos, (- self.width / 2, self.height / 2, self.depth / 2), mode="sum"),
+            combineTuple(pos, (self.width / 2, self.height / 2, self.depth / 2), mode="sum"),
+            combineTuple(pos, (self.width / 2, - self.height / 2, self.depth / 2), mode="sum"),
         )
+        self.frontPoints = tuple(map(lambda point: rotate3DPoint(self.pos, point, self.rotation), self.frontPoints))
+        self.backPoints = tuple(map(lambda point: rotate3DPoint(self.pos, point, self.rotation), self.backPoints))
 
-    def draw(self, screen, debug=False):
+
+    def draw(self, screen, debug=False, origin: Point2D | Point3D | None = None, angle: Point3D = (0,0,0)):
+        playerPos = origin
+        origin = (screen.get_width()/2, screen.get_height()/2)
+        '''zOffset = 0
+        if len(origin) == 3:
+            zOffset = origin[2]
+            origin = origin[:2]
+        
+        if zOffset != 0:
+            self.frontPoints = tuple(map(lambda i : combineTuple(i, (0,0,zOffset), mode="subtract"), self.frontPoints))
+            self.backPoints = tuple(map(lambda i : combineTuple(i, (0,0,zOffset), mode="subtract"), self.backPoints))
+            print(self.frontPoints)'''
+        self.update()
+        pointsBackup = (self.frontPoints, self.backPoints)
+        if len(playerPos) == 3:
+            self.frontPoints = tuple(map(lambda i: combineTuple(i, playerPos, mode="subtract"), self.frontPoints))
+            self.backPoints = tuple(map(lambda i: combineTuple(i, playerPos, mode="subtract"), self.backPoints))
+            self.frontPoints = tuple(map(lambda i: rotate3DPoint(origin + (0,), i, angle), self.frontPoints))
+            self.backPoints = tuple(map(lambda i: rotate3DPoint(origin + (0,), i, angle), self.backPoints))
+        topPoints = (self.frontPoints[0], self.frontPoints[-1], self.backPoints[-1], self.backPoints[0])
+        bottomPoints = self.frontPoints[1:3] + self.backPoints[1:3][::-1]
+        leftPoints = self.frontPoints[:2] + self.backPoints[:2][::-1]
+        rightPoints = self.frontPoints[2:] + self.backPoints[2:][::-1]
+        drawnPoints = []
+        for point in self.frontPoints+self.backPoints:
+            if point not in topPoints:
+                 if pointBehindRect(origin, point, topPoints):
+                     continue
+            if point not in bottomPoints:
+                if pointBehindRect(origin, point, bottomPoints):
+                    continue
+            if point not in leftPoints:
+                if pointBehindRect(origin, point, leftPoints):
+                    continue
+            if point not in rightPoints:
+                if pointBehindRect(origin, point, rightPoints):
+                    continue
+            if point not in self.frontPoints:
+                if pointBehindRect(origin, point, self.frontPoints):
+                    continue
+            if point not in self.backPoints:
+                if pointBehindRect(origin, point, self.backPoints):
+                    continue
+            drawnPoints.append(point)
+
+        if self.fillColor:
+            for face in [topPoints, bottomPoints, leftPoints, rightPoints, self.frontPoints, self.backPoints]:
+                if all(point in drawnPoints for point in face):
+                    pygame.draw.polygon(screen, self.fillColor, list(map(lambda x: project3DPoint(origin, x), face)))
         for i in range(4):
-            draw3DLine(screen, self.frontPoints[i], self.backPoints[i], 2, self.color)
-            draw3DLine(screen, self.frontPoints[i], self.frontPoints[i-1], 2, self.color)
-            draw3DLine(screen, self.backPoints[i], self.backPoints[i-1], 2, self.color)
+            if debug:
+                pygame.draw.circle(screen, self.color if self.frontPoints[i] in drawnPoints else "white", project3DPoint(origin, self.frontPoints[i]), 5)
+                pygame.draw.circle(screen, self.color if self.backPoints[i] in drawnPoints else "white", project3DPoint(origin, self.backPoints[i]), 5)
+            if self.frontPoints[i] in drawnPoints and self.backPoints[i] in drawnPoints:
+                draw3DLine(screen, self.frontPoints[i], self.backPoints[i], 2, self.color, origin=origin)
+            if self.frontPoints[i] in drawnPoints and self.frontPoints[i-1] in drawnPoints:
+                draw3DLine(screen, self.frontPoints[i], self.frontPoints[i - 1], 2, self.color, origin=origin)
+            if self.backPoints[i] in drawnPoints and self.backPoints[i - 1] in drawnPoints:
+                draw3DLine(screen, self.backPoints[i], self.backPoints[i - 1], 2, self.color, origin=origin)
+        if len(playerPos) == 3:
+            self.frontPoints, self.backPoints = pointsBackup
+
+
         if debug:
-            draw3DLine(screen, self.pos, (self.pos[0] + 500*math.cos(self.heading[1])*math.cos(self.heading[2]), self.pos[1] + 500*math.cos(self.heading[0])*math.sin(self.heading[2]), self.pos[2] + 500*math.sin(self.heading[1])*math.sin(self.heading[0])), 2, "blue")
+            draw3DLine(screen, self.pos, rotate3DPoint(self.pos,combineTuple(self.pos, (0,0,-300), mode="sum"), self.rotation), 2, "blue", origin=origin)
 
 

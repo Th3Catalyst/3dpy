@@ -7,11 +7,11 @@ def main() -> None:
     pygame.init()
     screen = pygame.display.set_mode((1280, 720))
     clock = pygame.time.Clock()
-    playerPos = [screen.get_width() / 2, screen.get_height() / 2, 0]
+    playerPos = [0,0, 0]
     playerAngle = [0, 0, 0]
 
-    testCube = Cube((1200,700) + (0,),(30,400,200), "cyan", fillColor=(0,0,255))
-    ground = Cube((0,900,0), (4000,40,4000), "red", fillColor=(255,0,0))
+    testCube = Cube((1200,300) + (0,),(30,400,200), "cyan", fillColor=(0,0,255))
+    ground = Cube((0,500,0), (4000,40,4000), "red", fillColor=(255,0,0))
     oldMousePos = pygame.mouse.get_pos()
     running = True
     while running:
@@ -55,8 +55,7 @@ def main() -> None:
 
         screen.fill("#000000")
 
-        #pygame.draw.circle(screen, "red",
-        #                  playerPos[:2], 5)
+        pygame.draw.circle(screen, "yellow", playerPos[:2], 5)
 
         ground.draw(screen, debug=0, origin=tuple(playerPos), angle=playerAngle)
         testCube.draw(screen, debug=0, origin=tuple(playerPos), angle=playerAngle)

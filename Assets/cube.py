@@ -61,13 +61,18 @@ class Cube():
 
         pointsBackup += (self.frontPoints, self.backPoints)
         if len(playerPos) == 3:
-            self.pos = combineTuple(self.pos, playerPos, mode="subtract")
+            rotateOrigin = combineTuple((0,0,0), origin + (-500,), mode="sum")
+            self.pos = combineTuple(self.pos, combineTuple(playerPos, origin+(0,), mode="subtract"), mode="subtract")
+            self.pos = rotate3DPoint(rotateOrigin, self.pos, angle)
+
         self.update()
+        self.frontPoints = tuple(map(lambda point: rotate3DPoint(self.pos, point, angle), self.frontPoints))
+        self.backPoints = tuple(map(lambda point: rotate3DPoint(self.pos, point, angle), self.backPoints))
         if len(playerPos) == 3:
             '''self.frontPoints = tuple(map(lambda i: combineTuple(i, playerPos, mode="subtract"), self.frontPoints))
-            self.backPoints = tuple(map(lambda i: combineTuple(i, playerPos, mode="subtract"), self.backPoints))'''
+            self.backPoints = tuple(map(lambda i: combineTuple(i, playerPos, mode="subtract"), self.backPoints))
             self.frontPoints = tuple(map(lambda i: rotate3DPoint(origin+(0,), i, angle), self.frontPoints))
-            self.backPoints = tuple(map(lambda i: rotate3DPoint(origin+(0,),i, angle), self.backPoints))
+            self.backPoints = tuple(map(lambda i: rotate3DPoint(origin+(0,),i, angle), self.backPoints))'''
         topPoints = (self.frontPoints[0], self.frontPoints[-1], self.backPoints[-1], self.backPoints[0])
         bottomPoints = self.frontPoints[1:3] + self.backPoints[1:3][::-1]
         leftPoints = self.frontPoints[:2] + self.backPoints[:2][::-1]
@@ -109,6 +114,7 @@ class Cube():
             if self.backPoints[i] in drawnPoints and self.backPoints[i - 1] in drawnPoints:
                 draw3DLine(screen, self.backPoints[i], self.backPoints[i - 1], 2, self.color, origin=origin)
         if len(playerPos) == 3:
+            #draw3DLine(screen, self.pos, rotateOrigin, 4, "yellow", origin)
             self.pos, self.frontPoints, self.backPoints = pointsBackup
 
 

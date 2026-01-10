@@ -10,7 +10,8 @@ def main() -> None:
     playerPos = [0,0, 0]
     playerAngle = [0, 0, 0]
 
-    testCube = Cube((1200,300) + (0,),(30,400,200), "cyan", fillColor=(0,0,255))
+    testCube = Cube((500,0, 0),(200,200,500), "cyan", fillColor=(0,0,255))
+    testCube2 = Cube((-200,0, 0),(200,200,200), "cyan", fillColor=(0,0,255))
     ground = Cube((0,500,0), (4000,40,4000), "red", fillColor=(255,0,0))
     oldMousePos = pygame.mouse.get_pos()
     running = True
@@ -18,7 +19,6 @@ def main() -> None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                testCube.update()
             if pygame.mouse.get_pressed()[2]:
                 print(testCube.rotation)
                 testCube.rotation = combineTuple(testCube.rotation, (0,(oldMousePos[0]-pygame.mouse.get_pos()[0])/500,-(oldMousePos[1]-pygame.mouse.get_pos()[1])/500), mode="sum")
@@ -55,11 +55,13 @@ def main() -> None:
 
         screen.fill("#000000")
 
-        pygame.draw.circle(screen, "yellow", playerPos[:2], 5)
+
 
         ground.draw(screen, debug=0, origin=tuple(playerPos), angle=playerAngle)
         testCube.draw(screen, debug=0, origin=tuple(playerPos), angle=playerAngle)
-        
+        testCube2.draw(screen, debug=0, origin=tuple(playerPos), angle=playerAngle)
+        pygame.draw.circle(screen, "yellow", combineTuple(tuple(playerPos)[:2], (screen.get_width() / 2, screen.get_height() / 2), mode="subtract"), 5)
+
         pygame.display.flip()
         
         clock.tick(60)

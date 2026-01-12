@@ -58,3 +58,15 @@ def draw3DLine(screen, start: Point3D, end: Point3D, width: int, color, origin: 
     projectedStart = project3DPoint(origin, start)
     projectedEnd = project3DPoint(origin, end)
     pygame.draw.line(screen, color, projectedStart, projectedEnd, width)
+
+def castRay(screen: pygame.Surface, start: Point3D, direction: Number, collisionObjects: Iterable[pygame.Rect]) -> tuple[tuple[Number, Number], Number]:
+    distance = 0
+    testPoint = start
+    while True:
+
+        if any(o.collidepoint(testPoint) for o in collisionObjects):
+            return (testPoint, distance)
+        testPoint = combineTuple(testPoint, (math.cos(direction), math.sin(direction)), mode="sum")
+        distance += 1
+        if not screen.get_rect().collidepoint(testPoint):
+            return (testPoint, distance)
